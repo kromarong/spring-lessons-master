@@ -10,7 +10,8 @@
         <li><a href="${categoriesUrl}">Categories</a></li>
         <c:url value="/products/" var="productsUrl" />
         <li><a href="${productsUrl}">Products</a></li>
-        <li>Customers</li>
+        <c:url value="/customers/" var="customersUrl" />
+        <li><a href="${customersUrl}">Customers</a></li>
     </ul>
 </body>
 </html>
