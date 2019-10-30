@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Customers</title>
+</head>
+<body>
+
+<form th:object="${customer}" th:action="@{/customer/create}" method="post">
+    <input type="hidden" name="id" id="id" th:field="*{id}">
+    <p>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" th:field="*{name}" />
+    </p>
+    <input type="submit" />
+</form>
+
+<label>purchased products</label>
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+    </tr>
+
+    <tr th:each="prod : ${customer.products}">
+        <td th:text="${prod.id}">1</td>
+        <td th:text="${prod.name}">shirts</td>
+        <td th:text="${prod.description}">for men</td>
+        <td th:text="${prod.price}">123.00</td>
+    </tr>
+
+</table>
+
+<br>
+<label>products to buy</label>
+<table border="1">
+<!--    <a th:href="@{/products/edit?id={id}(id=${prod.id})}" th:text="${prod.name}">edit</a>-->
+<!--    <a th:href="@{/customers/buy?id={customerId}(customerId=${customer.id}?id={productId}(productId=${product.id})"} th:text="createUrl">createUrl</a>-->
+
+    <tr th:each="prod : ${products}">
+        <tr>
+            <a th:href="@{/customers/buy?id={customerId}(customerId=${customer.id}?id={productId}(productId=${product.id}}">
+            </a>
+            <td th:text="${prod.id}">1</td>
+            <td><a th:href="@{/products/edit?id={id}(id=${prod.id})}" th:text="${prod.name}"></a></td>
+            <td th:text="${prod.description}">"</td>
+            <td th:text="${prod.price}">"</td>
+        </tr>
+    </tr>
+
+</table>
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Customers</title>
+</head>
+<body>
+
+<a href="create">Create new customer</a>
+
+<table border="1">
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+    </tr>
+
+<!--    <c:forEach items="${customers}" var="customer">-->
+<!--    <tr>-->
+<!--        <c:url value="/customers/edit" var="editUrl">-->
+<!--            <c:param name="id" value="${customer.id}"/>-->
+<!--        </c:url>-->
+<!--        <td>${customer.id}</td>-->
+
+<!--        <td>-->
+<!--            <a href="${editUrl}">${customer.name}</a>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--</c:forEach>-->
+
+
+
+    <tr th:each="customer : ${customers}">
+        <td th:text="${customer.id}">1</td>
+
+        <td>
+            <a th:href="@{/customers/edit?id={id}(id=${customer.id})}" th:text="${customer.name}">Customer</a>
+        </td>
+
+        <td th:text="${customer.name}">Description</td>
+    </tr>
+
+</table>
+
+</body>
+</html>
