@@ -18,7 +18,6 @@ public class Customer {
     @JoinColumn(name = "product_id")
     private List<Product> products;
 
-
     public Customer() {
     }
 

@@ -11,24 +11,22 @@ import ru.geekbrains.persistence.CustomerRepository;
 import ru.geekbrains.persistence.ProductRepository;
 import ru.geekbrains.persistence.entity.Customer;
 import ru.geekbrains.persistence.entity.Product;
+import ru.geekbrains.service.CustomerService;
 
 @Controller
 @RequestMapping("customers")
 public class CustomerController {
 
-    private final ProductRepository productRepository;
-
-    private final CustomerRepository customerRepository;
+    private final CustomerService customerService;
 
     @Autowired
-    public CustomerController(ProductRepository productRepository, CustomerRepository customerRepository) {
-        this.productRepository = productRepository;
-        this.customerRepository = customerRepository;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String allCustomers(Model model) {
-        model.addAttribute("customers", customerRepository.findAll());
+        model.addAttribute("customers", customerService.findAll());
         return "customers";
     }
 
@@ -39,44 +37,40 @@ public class CustomerController {
         return "customer";
     }
 
+    @RequestMapping(value = "save", method = RequestMethod.POST)
+    public String createCategory(@ModelAttribute("customer") Customer customer) {
+        customerService.save(customer);
+        return "redirect:/customers";
+    }
+
     @RequestMapping(value = "edit", method = RequestMethod.GET)
     public String editForm(@RequestParam("id") Long id, Model model) {
-        model.addAttribute("customer", customerRepository.findById(id));
+        Customer customer = customerService.findById(id);
+        model.addAttribute("customer", customer);
+        model.addAttribute("customerProducts", customer.getProducts());
+        model.addAttribute("allProducts", customerService.findAllProducts());
         model.addAttribute("action", "edit");
-        model.addAttribute("products", productRepository.findAll());
         return "customer";
     }
 
     @RequestMapping(value = "edit", method = RequestMethod.POST)
     public String editForm(@ModelAttribute("customer") Customer customer) {
-        customerRepository.save(customer);
+        customerService.save(customer);
         return "customer";
     }
 
-    @RequestMapping(value = "create", method = RequestMethod.POST)
-    public String createCategory(@ModelAttribute("customer") Customer customer) {
-        customerRepository.save(customer);
-        return "redirect:/customers";
-    }
-
     @RequestMapping(value = "buy", method = RequestMethod.GET)
-    public String buyProductFrom(@RequestParam("productId") Long productId, @RequestParam("customerId") Long customerId,
+    public String buyProductFrom(@RequestParam("productId") Long productId,
+                                 @RequestParam("customerId") Long customerId,
                                  Model model) {
-        Product product = productRepository.findById(productId).
-                orElseThrow(() -> new IllegalStateException("Product not found"));
-        Customer customer = customerRepository.findById(customerId).
-                orElseThrow(() -> new IllegalStateException("Customer not found"));;
-        customer.addProduct(product);
-        customerRepository.save(customer);
+        Customer customer = customerService.buyProduct(productId, customerId);
         model.addAttribute("customer", customer);
         return "customer";
     }
 
     @RequestMapping(value = "buy", method = RequestMethod.POST)
     public String buyProductFrom(@ModelAttribute("customer") Customer customer) {
-        customerRepository.save(customer);
+        customerService.save(customer);
         return "customer";
     }
-
-
 }
