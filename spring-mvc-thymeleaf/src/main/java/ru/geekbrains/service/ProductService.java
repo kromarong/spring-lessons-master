@@ -3,6 +3,7 @@ package ru.geekbrains.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.geekbrains.controller.repr.ProductFilter;
 import ru.geekbrains.controller.repr.ProductRepr;
 import ru.geekbrains.persistence.CategoryRepository;
 import ru.geekbrains.persistence.ProductRepository;
@@ -48,6 +49,11 @@ public class ProductService {
         productRepr.setCategoryId(category.getId());
         productRepr.setCategoryName(category.getName());
         return productRepr;
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProductRepr> filterProducts(ProductFilter filter) {
+        return productRepository.filterProducts(filter.getCategoryId(), filter.getPriceFrom(), filter.getPriceTo());
     }
 
     @Transactional
