@@ -11,13 +11,19 @@ public class ProductFilter {
 
     private BigDecimal priceTo;
 
+    private Integer currentPage;
+
+    private Integer pageSize;
+
     public ProductFilter() {
     }
 
-    public ProductFilter(Long categoryId, BigDecimal priceFrom, BigDecimal priceTo) {
+    public ProductFilter(Long categoryId, BigDecimal priceFrom, BigDecimal priceTo, Integer currentPage, Integer pageSize) {
         this.categoryId = categoryId;
         this.priceFrom = priceFrom;
         this.priceTo = priceTo;
+        this.currentPage = currentPage;
+        this.pageSize = pageSize;
     }
 
     public Long getCategoryId() {
@@ -42,5 +48,21 @@ public class ProductFilter {
 
     public void setPriceTo(BigDecimal priceTo) {
         this.priceTo = priceTo;
+    }
+
+    public Integer getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(Integer currentPage) {
+        this.currentPage = currentPage;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 }

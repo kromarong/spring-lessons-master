@@ -1,6 +1,8 @@
 package ru.geekbrains.service;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.controller.repr.ProductFilter;
@@ -12,6 +14,8 @@ import ru.geekbrains.persistence.entity.Product;
 
 import java.util.List;
 import java.util.Optional;
+
+import static ru.geekbrains.persistence.ProductRepository.*;
 
 @Service
 public class ProductService {
@@ -26,9 +30,8 @@ public class ProductService {
         this.categoryRepository = categoryRepository;
     }
 
-    @Transactional(readOnly = true)
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public Long count() {
+        return productRepository.count();
     }
 
     @Transactional(readOnly = true)
@@ -52,8 +55,15 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public List<ProductRepr> filterProducts(ProductFilter filter) {
-        return productRepository.filterProducts(filter.getCategoryId(), filter.getPriceFrom(), filter.getPriceTo());
+    public Page<Product> filterProducts(ProductFilter filter) {
+        Specification<Product> spec = Specification.where(null);
+
+        spec = spec
+                .and(filter.getCategoryId() != -1 ? category(new Category(1L)) : null)
+                .and(filter.getPriceFrom() != null ? priceFrom(filter.getPriceFrom()) : null)
+                .and(filter.getPriceTo() != null ? priceTo(filter.getPriceFrom()) : null);
+
+        return productRepository.findAll(spec, PageRequest.of(filter.getCurrentPage(), filter.getPageSize()));
     }
 
     @Transactional

@@ -1,5 +1,4 @@
 package ru.geekbrains.persistence.entity;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -22,6 +21,11 @@ public class Category {
 
     public Category() {
     }
+
+    public Category(Long id) {
+        this.id = id;
+    }
+
 
     public Category(Long id, String name, String description) {
         this.id = id;
