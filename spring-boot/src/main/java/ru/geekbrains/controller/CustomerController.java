@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.geekbrains.persistence.entity.Customer;
 import ru.geekbrains.service.CustomerService;
 
+import java.util.ArrayList;
+
 @Controller
 @RequestMapping("customers")
 public class CustomerController {

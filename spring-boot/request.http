@@ -1,0 +1,22 @@
+GET http://localhost:8081/api/category/all
+
+###
+
+GET http://localhost:8081/api/category/3/id
+
+###
+
+POST http://localhost:8081/api/category/
+Content-Type: application/json
+
+{
+  "name": "New Category !!!",
+  "description": "asdfasdfs 2",
+  "products": []
+}
+
+###
+
+DELETE http://localhost:8081/api/category/7/id
+
+###

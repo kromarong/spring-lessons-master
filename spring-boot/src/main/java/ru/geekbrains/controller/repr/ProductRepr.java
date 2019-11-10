@@ -1,5 +1,7 @@
 package ru.geekbrains.controller.repr;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import java.math.BigDecimal;
 
 public class ProductRepr {
@@ -15,6 +17,8 @@ public class ProductRepr {
     private Long categoryId;
 
     private String categoryName;
+
+    private MultipartFile[] newPictures;
 
     public ProductRepr() {
     }
@@ -74,5 +78,13 @@ public class ProductRepr {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public MultipartFile[] getNewPictures() {
+        return newPictures;
+    }
+
+    public void setNewPictures(MultipartFile[] newPictures) {
+        this.newPictures = newPictures;
     }
 }
