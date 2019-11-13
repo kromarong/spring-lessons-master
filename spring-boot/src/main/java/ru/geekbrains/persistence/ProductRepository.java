@@ -47,4 +47,5 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     static Specification<Product> priceTo(BigDecimal priceTo) {
         return (prod, cq, cb) -> cb.le(prod.get("price"), priceTo);
     }
+
 }

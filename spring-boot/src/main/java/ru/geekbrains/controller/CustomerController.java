@@ -3,10 +3,7 @@ package ru.geekbrains.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.persistence.entity.Customer;
 import ru.geekbrains.service.CustomerService;
 
@@ -46,9 +43,9 @@ public class CustomerController {
     public String editForm(@RequestParam("id") Long id, Model model) {
         Customer customer = customerService.findById(id);
         model.addAttribute("customer", customer);
-        model.addAttribute("customerProducts", customer.getProducts());
         model.addAttribute("allProducts", customerService.findAllProducts());
         model.addAttribute("action", "edit");
+        System.out.println(customer.getProducts());
         return "customer";
     }
 
@@ -58,10 +55,11 @@ public class CustomerController {
         return "customer";
     }
 
-    @RequestMapping(value = "buy", method = RequestMethod.GET)
-    public String buyProductFrom(@RequestParam("productId") Long productId,
-                                 @RequestParam("customerId") Long customerId,
+    @RequestMapping(value = "buy/{productId}/{customerId}", method = RequestMethod.GET)
+    public String buyProductFrom(@PathVariable("productId") Long productId,
+                                 @PathVariable("customerId") Long customerId,
                                  Model model) {
+        System.out.println("-----------------------------------------------------enter buing product block");
         Customer customer = customerService.buyProduct(productId, customerId);
         model.addAttribute("customer", customer);
         return "customer";
@@ -69,6 +67,7 @@ public class CustomerController {
 
     @RequestMapping(value = "buy", method = RequestMethod.POST)
     public String buyProductFrom(@ModelAttribute("customer") Customer customer) {
+        System.out.println("------------------------------------------product succesfully added!");
         customerService.save(customer);
         return "customer";
     }

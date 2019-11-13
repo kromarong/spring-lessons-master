@@ -1,12 +1,12 @@
-GET http://localhost:8081/api/category/all
+GET http://localhost:8080/api/category/all
 
 ###
 
-GET http://localhost:8081/api/category/3/id
+GET http://localhost:8080/api/category/3/id
 
 ###
 
-POST http://localhost:8081/api/category/
+POST http://localhost:8080/api/category/
 Content-Type: application/json
 
 {
@@ -17,6 +17,22 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:8081/api/category/7/id
+DELETE http://localhost:8080/api/category/7/id
+
+###
+
+GET http://localhost:8080/api/customer/all
+
+###
+
+GET http://localhost:8080/api/customer/1/id
+
+###
+
+GET http://localhost:8080/api/customer/1/products
+
+###
+
+DELETE http://localhost:8080/api/customer/7/id
 
 ###
