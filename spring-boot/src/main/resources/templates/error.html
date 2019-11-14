@@ -1,6 +1,6 @@
-<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <!-- Required meta tags -->
@@ -12,8 +12,11 @@
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
 
-    <title>Category</title>
+    <link rel="stylesheet" type="text/css" href="style.css" th:href="@{style.css}"/>
+
+    <title>Products</title>
 </head>
+
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -32,46 +35,20 @@
         </ul>
 
         <form class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
-            <button type="submit" class="btn btn-outline-success my-2 my-sm-0">Logout</button>
+            <a sec:authorize="!isAuthenticated()" class="btn btn-outline-success my-2 my-sm-0" th:href="@{/login}">Login</a>
+            <button type="submit" sec:authorize="isAuthenticated()" class="btn btn-outline-success my-2 my-sm-0">Logout</button>
         </form>
     </div>
 </nav>
 
 <div class="container">
-
-    <form th:object="${category}" th:action="@{/admin/categories/save}" method="post">
-        <!-- Очень часто применяемый способ передачи id через форму -->
-        <input type="hidden" name="id" id="id" th:field="*{id}">
-        <p>
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" th:field="*{name}"/>
-        </p>
-        <p>
-            <label for="description">Description</label>
-            <input type="text" id="description" name="description" th:field="*{description}"/>
-        </p>
-        <input type="submit"/>
-    </form>
-
-    <a th:href="@{/products/create?categoryId={categoryId}(categoryId=${category.id})}">Create new Product</a>
-
-    <table border="1">
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Price</th>
-        </tr>
-
-        <tr th:each="prod : ${category.products}">
-            <td th:text="${prod.id}">1</td>
-            <td><a th:href="@{/products/edit?id={id}(id=${prod.id})}" th:text="${prod.name}"></a></td>
-            <td th:text="${prod.description}">Desc</td>
-            <td th:text="${prod.price}">123.00</td>
-        </tr>
-
-    </table>
-
+    <div class="row py-2">
+        <div class="col-12">
+            <p>Error</p>
+            <p th:text="${#response.status}"></p>
+            <p th:text="${exception?.localizedMessage}"></p>
+        </div>
+    </div>
 </div>
 
 <!-- Optional JavaScript -->

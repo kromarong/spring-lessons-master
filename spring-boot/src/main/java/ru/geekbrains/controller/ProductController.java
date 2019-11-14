@@ -1,4 +1,6 @@
 package ru.geekbrains.controller;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -6,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.geekbrains.controller.error.ResourceNotFoundException;
 import ru.geekbrains.controller.repr.ProductFilter;
 import ru.geekbrains.controller.repr.ProductRepr;
 import ru.geekbrains.service.CategoryService;
@@ -54,7 +57,7 @@ public class ProductController {
     @RequestMapping(value = "edit", method = RequestMethod.GET)
     public String editProduct(@RequestParam("id") Long id, Model model) {
         model.addAttribute("product", productService.getProductReprById(id)
-                .orElseThrow(() -> new IllegalStateException("Product not found")));
+                .orElseThrow(ResourceNotFoundException::new));
         return "product";
     }
 

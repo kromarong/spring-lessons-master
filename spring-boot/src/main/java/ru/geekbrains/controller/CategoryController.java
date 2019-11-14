@@ -7,12 +7,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.geekbrains.controller.error.ResourceNotFoundException;
 import ru.geekbrains.persistence.entity.Category;
 import ru.geekbrains.service.CategoryService;
 
 
 @Controller
-@RequestMapping("categories")
+@RequestMapping("admin/categories")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -38,7 +39,7 @@ public class CategoryController {
     @RequestMapping(value = "edit", method = RequestMethod.GET)
     public String editForm(@RequestParam("id") Long id, Model model) {
         Category category = categoryService.findByIdWithProducts(id)
-                .orElseThrow(() -> new IllegalStateException("Category not found"));
+                .orElseThrow(ResourceNotFoundException::new);
         model.addAttribute("category", category);
         model.addAttribute("action", "edit");
         return "category";
@@ -47,6 +48,6 @@ public class CategoryController {
     @RequestMapping(value = "save", method = RequestMethod.POST)
     public String createCategory(@ModelAttribute("category") Category category) {
         categoryService.save(category);
-        return "redirect:/categories";
+        return "redirect:/admin/categories";
     }
 }
