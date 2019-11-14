@@ -17,6 +17,12 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
     public User() {
     }
 
@@ -43,5 +49,20 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public Set getAuthorities(){
+        Set authorities = null;
+        for (Role r : roles) {
+            authorities.add(r.getAuthority());
+        }
+        return authorities;
+    }
 }

@@ -1,6 +1,9 @@
 package ru.geekbrains.controller.repr;
 
+import ru.geekbrains.persistence.entity.Role;
+
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 public class UserRepr {
 
@@ -14,6 +17,8 @@ public class UserRepr {
 
     @NotEmpty
     private String matchingPassword;
+
+    private Set<Role> roles;
 
     public UserRepr() {
     }
@@ -48,6 +53,14 @@ public class UserRepr {
 
     public void setMatchingPassword(String matchingPassword) {
         this.matchingPassword = matchingPassword;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override

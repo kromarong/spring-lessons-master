@@ -13,6 +13,9 @@ import ru.geekbrains.controller.repr.UserRepr;
 import ru.geekbrains.service.UserService;
 
 import javax.validation.Valid;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 public class LoginController {
@@ -50,6 +53,7 @@ public class LoginController {
             return "register";
         }
 
+        userRepr.setRoles(new HashSet(Collections.singleton(userService.getAdminRole())));
         userService.create(userRepr);
         return "redirect:/login";
     }
