@@ -1,24 +1,24 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+<!doctype html>
+<html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <!-- Required meta tags -->
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
-
-    <title>New product</title>
+    <title>Register</title>
 </head>
+
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Geek Market</a>
+    <a class="navbar-brand" th:href="@{/}">Register new user</a>
 
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,7 +28,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">List</a>
+                <a class="nav-link" th:href="@{/}">List</a>
             </li>
         </ul>
 
@@ -40,39 +40,28 @@
 </nav>
 
 <div class="container">
-    <form th:action="@{/products/save}" th:object="${product}" method="post">
-        <!-- Очень часто применяемый способ передачи id через форму -->
-        <input type="hidden" id="id" th:field="*{id}">
-        <input type="hidden" id="categoryId" th:field="*{categoryId}">
-
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" class="form-control" th:field="*{name}"/>
+    <div class="row py-2">
+        <div class="col-12">
+            <form th:action="@{/register}" method="post" th:object="${user}">
+                <div class="form-group">
+                    <label>User name</label>
+                    <input type="text" class="form-control" th:field="*{username}" placeholder="Enter user name">
+                    <small class="text-danger" th:each="err: ${#fields.errors('username')}" th:text="${err}"></small>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" th:field="*{password}" placeholder="Password">
+                    <small class="text-danger" th:each="err: ${#fields.errors('password')}" th:text="${err}"></small>
+                </div>
+                <div class="form-group">
+                    <label>Repeat password</label>
+                    <input type="password" class="form-control" th:field="*{matchingPassword}" placeholder="Repeat password">
+                    <small class="text-danger" th:each="err: ${#fields.errors('matchingPassword')}" th:text="${err}"></small>
+                </div>
+                <button type="submit" class="btn btn-primary">Register</button>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label for="category">Category</label>
-            <input type="text" id="category" class="form-control" th:field="*{categoryName}" disabled/>
-        </div>
-
-        <div class="form-group">
-            <label for="price">Price</label>
-            <input type="number" id="price" class="form-control" th:field="*{price}"/>
-        </div>
-
-        <div class="form-group">
-            <label for="description">Description</label>
-            <input type="text" id="description" class="form-control" th:field="*{description}"/>
-        </div>
-
-        <div class="form-group">
-            <label for="newPictures">Product image</label>
-            <input type="file" class="form-control-file" id="newPictures" th:field="*{newPictures}"
-                   placeholder="Upload new product picture" multiple required>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </div>
 </div>
 
 <!-- Optional JavaScript -->
@@ -86,6 +75,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-
 </body>
+
 </html>
